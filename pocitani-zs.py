@@ -48,18 +48,17 @@ class Application (tk.Tk):
         self.a = tk.StringVar()
         self.a.set(0)
         self.operant = tk.StringVar()
-        self.operant.set (' + ')
+        self.operant.set ('+ ')
         self.b = tk.StringVar()
         self.b.set(0)
         self.vysledek = tk.StringVar()
-        self.vysledek.set(0)
         
         Label (self.RovniceFrame, text = 'Rovnice:').grid(row = 6, column = 0)
         
         self.AEntry = Entry (self.RovniceFrame, state = 'readonly', textvariable = self.a, width = 4)
         self.AEntry.grid (row = 7, column = 0)
         
-        self.OperantLab = Label (self.RovniceFrame, textvariable = self.operant)
+        self.OperantLab = Label (self.RovniceFrame, textvariable = self.operant, width = 5)
         self.OperantLab.grid (row = 7, column = 1)
         
         self.BEntry = Entry (self.RovniceFrame, state = 'readonly', textvariable = self.b, width = 4)
@@ -73,7 +72,7 @@ class Application (tk.Tk):
         self.bind ('<Return>', self.kontrola)
     
     #### Hodnoceni ####
-        Label (self.HodnoceniFrame, text = 'Hodnoceni').grid(row = 8, column = 0)
+        Label (self.HodnoceniFrame, text = 'Hodnoceni:').grid(row = 8, column = 0)
         self.OKLabel = Label (self.HodnoceniFrame, text = 'Počítej')
         self.OKLabel.grid (row = 9, column = 0)
         self.StatLabel = Label (self.HodnoceniFrame, text = '0 / 0')
@@ -83,39 +82,40 @@ class Application (tk.Tk):
         self.dobre = 0
         self.celkem = 0
         self.Priklady()
+        self.OKLabel.config (text = 'Počítej')
+        self.StatLabel.config (text = '{0} / {1}'.format(self.dobre, self.celkem))
+        
     def Priklady (self):
         self.vyber = []
         if  self.ScitaniVar.get() == 1:
-            self.vyber.append (' + ')
+            self.vyber.append ('+ ')
         if self.OdcitaniVar.get() == 1:
-            self.vyber.append (' - ')
+            self.vyber.append ('- ')
         if self.NasobeniVar.get ()== 1:
-            self.vyber.append (' * ')
+            self.vyber.append ('* ')
         if self.DeleniVar.get ()== 1:
-            self.vyber.append (' / ')
-        print (self.vyber)   
+            self.vyber.append ('/ ')
         operace = random.choice(self.vyber)
-        print(operace)
         
-        if operace == ' + ':
+        if operace == '+ ':
             self.CisloA = random.randint (1,50)
             self.CisloB = random.randint (1,50)
             self.Vysledek = self.CisloA + self.CisloB
         
-        if operace == ' - ':
+        if operace == '- ':
             self.CisloA = random.randint (1,50)
             self.CisloB = random.randint (1,self.CisloA)
             self.Vysledek = self.CisloA - self.CisloB
            
-        if operace == ' * ':
+        if operace == '* ':
             self.CisloA = random.randint (1,10)
             self.CisloB = random.randint (1,10)
             self.Vysledek = self.CisloA * self.CisloB
         
-        if operace == ' / ':
-            self.CisloA = random.randint (1,100)
+        if operace == '/ ':          
             self.CisloB = random.randint (1,10)
-            self.Vysledek = self.CisloA / self.CisloB
+            self.Vysledek = random.randint (1,10)
+            self.CisloA = self.CisloB * self.Vysledek
         
         self.a.set(self.CisloA)
         self.b.set(self.CisloB)
@@ -129,7 +129,7 @@ class Application (tk.Tk):
             else:
                 self.OKLabel.config (text = 'Spíš ne')
             self.celkem += 1
-            self.vysledek.set(0)
+            self.vysledek.set('')
             self.StatLabel.config (text = '{0} / {1}'.format(self.dobre, self.celkem))
             self.Priklady()
         except:
